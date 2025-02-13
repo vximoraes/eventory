@@ -2,6 +2,8 @@ import inquirer from 'inquirer'
 import * as eventController from '../controllers/eventController'
 import * as userController from '../controllers/userController'
 import { getCurrentTime } from '../utils/loggerUtils'
+import { createUserSeed } from '../seeds/userSeed'
+import { createEventSeed } from '../seeds/eventSeed'
 
 async function mainMenu() {
     const { option } = await inquirer.prompt([
@@ -12,7 +14,8 @@ async function mainMenu() {
             choices: [
                 { name: '1 - Gerenciar Eventos' , value: 'events' },
                 { name: '2 - Gerenciar Usuários', value: 'users'  },
-                { name: '3 - Sair'              , value: 'exit'   }
+                { name: '3 - Adicionar Seeds'   , value: 'seeds'  },
+                { name: '4 - Sair'              , value: 'exit'   }
             ]
         }
     ])
@@ -21,6 +24,8 @@ async function mainMenu() {
         await eventMenu()
     } else if (option === 'users') {
         await userMenu()
+    } else if (option === 'seeds') {
+        await seedsMenu()
     } else {
         console.log(`${getCurrentTime()} -  Até logo!`)
         process.exit(0)
@@ -105,7 +110,7 @@ async function userMenu() {
         {
             type: 'list',
             name: 'action',
-            message: 'O que você gostaria de fazer com os usuários?',
+            message: 'Selecione uma das opções:',
             choices: [
                 { name: '1 - Criar um usuário'        , value: 'create'  },
                 { name: '2 - Listar todos os usuários', value: 'listAll' },
@@ -169,6 +174,34 @@ async function userMenu() {
     }
 
     await userMenu() 
+}
+
+async function seedsMenu() {
+    const { action } = await inquirer.prompt([
+        {
+            type: 'list',
+            name: 'action',
+            message: 'Selecione uma das opções:',
+            choices: [
+                { name: '1 - Adicionar 10 usuários (Seed)' , value: 'userSeed'  },
+                { name: '2 - Adicionar 10 eventos (Seed)'  , value: 'eventSeed' },
+                { name: '3 - Voltar ao menu principal'     , value: 'back'      }
+            ]
+        }
+    ])
+
+    switch (action) {
+        case 'userSeed':
+            await createUserSeed()
+            break
+        case 'eventSeed':
+            await createEventSeed()
+            break        
+        case 'back':
+            return 
+    }
+
+    await seedsMenu() 
 }
 
 export async function main() {
