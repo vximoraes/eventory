@@ -24,7 +24,7 @@ export function createUserTableDb(): Promise<boolean> {
     })
 }
 
-export function createUserDb(user: User): Promise<boolean> {
+export function createUserDb(user: User): Promise<number> {
     const query = `
         INSERT INTO users (name, email, password)
         VALUES (?, ?, ?)
@@ -35,7 +35,7 @@ export function createUserDb(user: User): Promise<boolean> {
             if (error) {
                 reject(error)
             } else {
-                resolve(true)
+                resolve(this.lastID)
             }
         })
     })
