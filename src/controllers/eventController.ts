@@ -40,7 +40,7 @@ export async function createEvent(name: string, date: Date, user_id: number) {
 
         if (createdEvent) {
             console.log(`${getCurrentTime()} - Evento inserido com sucesso!`)
-            await createEventLog(uuid(), user_id, date, 'INSERT')
+            await createEventLog(uuid(), user_id, date, 'INSERT EVENT')
         }
     } catch (error) {
         console.log(`${getCurrentTime()} - Erro ao inserir evento: ${error}}`)
@@ -102,7 +102,7 @@ export async function updateEvent(id: number, name: string, date: Date, user_id:
 
         if (updatedEvent) {
             console.log(`${getCurrentTime()} - Evento '${updateEvent.id}' alterado com sucesso!`)
-            await createEventLog(uuid(), user_id, date, 'UPDATE')
+            await createEventLog(uuid(), user_id, date, 'UPDATE EVENT')
         } else {
             console.log(`${getCurrentTime()} - Nenhum evento encontrado através do id '${updateEvent.id}.'`)
         }
@@ -119,7 +119,7 @@ export async function deleteEvent(id: number) {
 
         if (deletedEvent) {
             console.log(`${getCurrentTime()} - Evento com id '${id}' deletado com sucesso!`)
-            await createEventLog(uuid(), user_id, new Date(), 'DELETE')
+            await createEventLog(uuid(), user_id, new Date(), 'DELETE EVENT')
             return true
         } else {
             return false
