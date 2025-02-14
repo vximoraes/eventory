@@ -1,8 +1,10 @@
+import { v4 as uuid } from 'uuid'
 import { Event } from './../models/eventModel'
 import { getCurrentTime } from '../utils/loggerUtils'
 import { createEventDb, createEventTableDb, deleteEventDb, listAllEventsDb, listEventDb, updateEventDb } from '../services/eventService'
-import { createLogDb } from '../services/logService'
 import { validateEvent } from '../validations/eventValidation'
+import { createEventLog } from '../logs/eventLog'
+import { date } from 'zod'
 
 export async function createEventTable() {
     try {
@@ -38,7 +40,7 @@ export async function createEvent(name: string, date: Date, user_id: number) {
 
         if (createdEvent) {
             console.log(`${getCurrentTime()} - Evento inserido com sucesso!`)
-            await createLogDb('INSERT', 'Event', user_id)
+            await createEventLog(uuid(), user_id, date, 'INSERT')
         }
     } catch (error) {
         console.log(`${getCurrentTime()} - Erro ao inserir evento: ${error}}`)
@@ -100,7 +102,7 @@ export async function updateEvent(id: number, name: string, date: Date, user_id:
 
         if (updatedEvent) {
             console.log(`${getCurrentTime()} - Evento '${updateEvent.id}' alterado com sucesso!`)
-            await createLogDb('UPDATE', 'Event', user_id)
+            await createEventLog(uuid(), user_id, date, 'UPDATE')
         } else {
             console.log(`${getCurrentTime()} - Nenhum evento encontrado através do id '${updateEvent.id}.'`)
         }
@@ -117,7 +119,7 @@ export async function deleteEvent(id: number) {
 
         if (deletedEvent) {
             console.log(`${getCurrentTime()} - Evento com id '${id}' deletado com sucesso!`)
-            await createLogDb('DELETE', 'Event', user_id)
+            await createEventLog(uuid(), user_id, new Date(), 'DELETE')
             return true
         } else {
             return false
