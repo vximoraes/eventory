@@ -1,15 +1,17 @@
+import { v4 as uuid } from 'uuid'
 import { User } from './../models/userModel'
 import { validateUser } from '../validations/userValidation'
 import { createUserDb, createUserTableDb, deleteUserDb, listAllUsersDb, listUserDb, updateUserDb } from '../services/userService'
 import { getCurrentTime } from '../utils/loggerUtils'
 import { hashPassword } from '../utils/passwordUtils'
+import { createUserLog } from '../logs/userLog'
 
 export async function createUserTable() {
     try {
         const createdTable = await createUserTableDb()
 
         if (createdTable) {
-            // console.log(`${getCurrentTime()} - Tabela users criada com sucesso!`)
+            console.log(`${getCurrentTime()} - Tabela users criada com sucesso!`)
         }
     } catch (error) {
         console.log(`${getCurrentTime()} - Erro ao criar a tabela users: ${error}`)
@@ -40,6 +42,7 @@ export async function createUser(name: string, email: string, password: string) 
 
         if (createdUser) {
             console.log(`${getCurrentTime()} - Usuário inserido com sucesso!`)
+            await createUserLog(uuid(), createdUser, new Date(), 'INSERT USER')
         }
     } catch (error) {
         console.log(`${getCurrentTime()} - Erro ao inserir usuário: ${error}}`)
@@ -68,8 +71,10 @@ export async function listUser(id: number) {
         if (listedUser) {
             console.log(`${getCurrentTime()} - Usuário com id '${id}':`)
             console.log(listedUser)
+            return listedUser
         } else {
             console.log(`${getCurrentTime()} - Nenhum usuário encontrado através do id '${id}'.`)
+            return false
         }
     } catch (error) {
         console.log(`${getCurrentTime()} - Erro ao listar usuário: ${error}`)
@@ -91,7 +96,7 @@ export async function updateUser(id: number, name: string, email: string, passwo
     if (!validation.success) {
         console.log(`${getCurrentTime()} - Erros de validação ao atualizar usuário:`)
         validation.error.errors.forEach((err) => {
-            console.log(`- ${err.path.join(".")}: ${err.message}`)
+            console.log(`${getCurrentTime()} - - ${err.path.join(".")}: ${err.message}`)
         })
         return
     }
@@ -101,6 +106,7 @@ export async function updateUser(id: number, name: string, email: string, passwo
 
         if (updatedUser) {
             console.log(`${getCurrentTime()} - Usuário '${updateUser.id}' alterado com sucesso!`)
+            await createUserLog(uuid(), id, new Date(), 'UPDATE USER')
         } else {
             console.log(`${getCurrentTime()} - Nenhum usuário encontrado através do id '${updateUser.id}.'`)
         }
@@ -115,6 +121,7 @@ export async function deleteUser(id: number) {
 
         if (deletedUser) {
             console.log(`${getCurrentTime()} - Usuário com id '${id}' deletado com sucesso!`)
+            await createUserLog(uuid(), id, new Date(), 'DELETE USER')
         } else {
             console.log(`${getCurrentTime()} - Nenhum usuário encontrado através do id '${id}.'`)
         }
