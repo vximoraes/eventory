@@ -1,7 +1,7 @@
 import { createLogsTable } from "./controllers/logController"
 import { createUserTable } from "./controllers/userController"
 import { createEventTable } from "./controllers/eventController"
-import { main } from './cli/cli';  
+import { main } from './cli/cli'
 
 // ------------- Logs ------------
 
