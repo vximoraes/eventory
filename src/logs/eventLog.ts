@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { getCurrentTime } from '../utils/loggerUtils'
 
-export const filePath: string = './data/evento.log'  // Certifique-se de que o caminho esteja correto
+export const filePath: string = './data/evento.log'  
 
 export async function createEventLog(id: string, user_id: number, date: Date, action: string) {
     try {
