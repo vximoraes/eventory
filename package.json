@@ -22,11 +22,13 @@
   "homepage": "https://github.com/vximoraes/event-management#readme",
   "dependencies": {
     "bcrypt": "^5.1.1",
-    "faker": "^6.6.6",
+    "faker": "^5.5.3",
+    "fs": "^0.0.1-security",
     "inquirer": "^12.4.1",
     "nodemon": "^3.1.9",
     "sqlite3": "^5.1.7",
     "ts-node": "^10.9.2",
+    "uuid": "^11.0.5",
     "zod": "^3.24.1"
   },
   "devDependencies": {
