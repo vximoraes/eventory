@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3"
 import { Event } from './../models/eventModel'
-import { formatEventDate } from "../utils/dateUtils"
+import { formatDate } from "../utils/dateUtils"
 
 const db = new sqlite3.Database('./data/database.db')
 
@@ -35,7 +35,8 @@ export function createEventDb(event: Event): Promise<any> {
     `
 
     return new Promise((resolve, reject) => {
-        const formattedDate = formatEventDate(event.date)
+        const formattedDate = formatDate(event.date)
+        
         db.run(query, [event.name, formattedDate, event.user_id], function (error) {
             if (error) {
                 reject(error)
@@ -87,7 +88,8 @@ export function updateEventDb(event: Event): Promise<any> {
     `
 
     return new Promise((resolve, reject) => {
-        const formattedDate = formatEventDate(event.date)
+        const formattedDate = formatDate(event.date)
+
         db.run(query, [event.name, formattedDate, event.user_id, event.id], function (error) {
             if (error) {
                 reject(error)
