@@ -5,17 +5,35 @@ import { getCurrentTime } from '../utils/loggerUtils'
 import { createUserSeed } from '../seeds/userSeed'
 import { createEventSeed } from '../seeds/eventSeed'
 
+export let currentUser: string | null = null
+
+async function login() {
+    const { username } = await inquirer.prompt<{ username: string }>([
+        {
+            type: 'input',
+            name: 'username',
+            message: 'Por favor, insira seu nome de usuário:',
+        }
+    ])
+    currentUser = username 
+    console.log(`${getCurrentTime()} - Bem-vindo, ${currentUser}!`)
+}
+
 async function mainMenu() {
+    if (!currentUser) {
+        await login() 
+    }
+
     const { option } = await inquirer.prompt([
         {
             type: 'list',
             name: 'option',
             message: 'Bem-vindo! Selecione uma das opções:',
             choices: [
-                { name: '1 - Gerenciar Eventos' , value: 'events' },
-                { name: '2 - Gerenciar Usuários', value: 'users'  },
-                { name: '3 - Adicionar Seeds'   , value: 'seeds'  },
-                { name: '4 - Sair'              , value: 'exit'   }
+                { name: '1 - Gerenciar Eventos', value: 'events' },
+                { name: '2 - Gerenciar Usuários', value: 'users' },
+                { name: '3 - Adicionar Seeds', value: 'seeds' },
+                { name: '4 - Sair', value: 'exit' }
             ]
         }
     ])
@@ -27,7 +45,7 @@ async function mainMenu() {
     } else if (option === 'seeds') {
         await seedsMenu()
     } else {
-        console.log(`${getCurrentTime()} -  Até logo!`)
+        console.log(`${getCurrentTime()} - Até logo, ${currentUser}!`)
         process.exit(0)
     }
 
@@ -41,12 +59,12 @@ async function eventMenu() {
             name: 'action',
             message: 'Selecione uma das opções:',
             choices: [
-                { name: '1 - Criar um evento'         , value: 'create'  },
-                { name: '2 - Listar todos os eventos' , value: 'listAll' },
-                { name: '3 - Listar um evento por ID' , value: 'listOne' },
-                { name: '4 - Atualizar um evento'     , value: 'update'  },
-                { name: '5 - Deletar um evento'       , value: 'delete'  },
-                { name: '6 - Voltar ao menu principal', value: 'back'    }
+                { name: '1 - Criar um evento', value: 'create' },
+                { name: '2 - Listar todos os eventos', value: 'listAll' },
+                { name: '3 - Listar um evento por ID', value: 'listOne' },
+                { name: '4 - Atualizar um evento', value: 'update' },
+                { name: '5 - Deletar um evento', value: 'delete' },
+                { name: '6 - Voltar ao menu principal', value: 'back' }
             ]
         }
     ])
@@ -54,55 +72,68 @@ async function eventMenu() {
     switch (action) {
         case 'create':
             const { name, date, user_id } = await inquirer.prompt([
-                { type: 'input' , name: 'name'   , message: 'Nome do evento:'              },
-                { type: 'input' , name: 'date'   , message: 'Data do evento (AAAA-MM-DD):' },
-                { type: 'number', name: 'user_id', message: 'ID do usuário:'               }
+                { type: 'input', name: 'name', message: 'Nome do evento:' },
+                { type: 'input', name: 'date', message: 'Data do evento (DD/MM/AAAA):' }, 
+                { type: 'number', name: 'user_id', message: 'ID do usuário:' }
             ])
-            await eventController.createEvent(name, new Date(date), user_id)
+
+            const [day, month, year] = date.split('/').map(Number)
+            const eventDate = new Date(Date.UTC(year, month - 1, day)) 
+
+            await eventController.createEvent(name, eventDate, user_id)
             break
+
         case 'listAll':
             await eventController.listAllEvents()
             break
+
         case 'listOne':
             const { eventId } = await inquirer.prompt([
                 { type: 'number', name: 'eventId', message: 'ID do evento:' }
             ])
             await eventController.listEvent(eventId)
             break
+
         case 'update':
             const updateData = await inquirer.prompt([
-                { type: 'number', name: 'id'     , message: 'ID do evento a ser atualizado:'    },
-                { type: 'input' , name: 'name'   , message: 'Novo nome do evento:'              },
-                { type: 'input' , name: 'date'   , message: 'Nova data do evento (YYYY-MM-DD):' },
-                { type: 'number', name: 'user_id', message: 'Novo ID do usuário:'               }
+                { type: 'number', name: 'id', message: 'ID do evento a ser atualizado:' },
+                { type: 'input', name: 'name', message: 'Novo nome do evento:' },
+                { type: 'input', name: 'date', message: 'Nova data do evento (DD/MM/AAAA):' }, 
+                { type: 'number', name: 'user_id', message: 'Novo ID do usuário:' }
             ])
-            await eventController.updateEvent(updateData.id, updateData.name, new Date(updateData.date), updateData.user_id)
+
+            const [updateDay, updateMonth, updateYear] = updateData.date.split('/').map(Number)
+            const updateEventDate = new Date(Date.UTC(updateYear, updateMonth - 1, updateDay)) 
+
+            await eventController.updateEvent(updateData.id, updateData.name, updateEventDate, updateData.user_id)
             break
+
         case 'delete':
             const { deleteId } = await inquirer.prompt([
                 { type: 'number', name: 'deleteId', message: 'ID do evento a ser deletado:' }
             ])
-        
+
             const { confirmDelete } = await inquirer.prompt([
                 {
                     type: 'confirm',
                     name: 'confirmDelete',
                     message: `Você tem certeza que deseja deletar o evento de ID ${deleteId}?`,
-                    default: false 
+                    default: false
                 }
             ])
-        
+
             if (confirmDelete) {
                 await eventController.deleteEvent(deleteId)
             } else {
                 console.log(`${getCurrentTime()} - Operação de exclusão cancelada!`)
             }
             break
+
         case 'back':
-            return  
+            return
     }
 
-    await eventMenu() 
+    await eventMenu()
 }
 
 async function userMenu() {
