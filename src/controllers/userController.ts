@@ -11,7 +11,7 @@ export async function createUserTable() {
         const createdTable = await createUserTableDb()
 
         if (createdTable) {
-            console.log(`${getCurrentTime()} - Tabela users criada com sucesso!`)
+            // console.log(`${getCurrentTime()} - Tabela users criada com sucesso!`)
         }
     } catch (error) {
         console.log(`${getCurrentTime()} - Erro ao criar a tabela users: ${error}`)
@@ -19,22 +19,23 @@ export async function createUserTable() {
 }
 
 export async function createUser(name: string, email: string, password: string) {
-    const hashedPassword = await hashPassword(password)
-    
-    const user: User = {
-        name,
-        email,
-        password: hashedPassword    
-    }
-
-    const validation = validateUser(user)
+    const validation = validateUser({ name, email, password })
 
     if (!validation.success) {
         console.log(`${getCurrentTime()} - Erros de validação ao inserir usuário:`)
         validation.error.errors.forEach((err) => {
             console.log(`${getCurrentTime()} - - ${err.path.join(".")}: ${err.message}`)
         })
+
         return
+    }
+
+    const hashedPassword = await hashPassword(password)
+
+    const user: User = {
+        name,
+        email,
+        password: hashedPassword,
     }
 
     try {
@@ -42,7 +43,7 @@ export async function createUser(name: string, email: string, password: string) 
 
         if (createdUser) {
             console.log(`${getCurrentTime()} - Usuário inserido com sucesso!`)
-            await createUserLog(uuid(), createdUser, new Date(), 'INSERT USER')
+            await createUserLog(uuid(), new Date(), 'INSERT USER')
         }
     } catch (error) {
         console.log(`${getCurrentTime()} - Erro ao inserir usuário: ${error}}`)
@@ -82,23 +83,24 @@ export async function listUser(id: number) {
 }
 
 export async function updateUser(id: number, name: string, email: string, password: string) {
-    const hashedPassword = await hashPassword(password)
-    
-    const updateUser: User = {
-        id,
-        name,
-        email,
-        password: hashedPassword
-    }
-
-    const validation = validateUser(updateUser)
+    const validation = validateUser({ name, email, password })
 
     if (!validation.success) {
         console.log(`${getCurrentTime()} - Erros de validação ao atualizar usuário:`)
         validation.error.errors.forEach((err) => {
             console.log(`${getCurrentTime()} - - ${err.path.join(".")}: ${err.message}`)
         })
-        return
+
+        return 
+    }
+
+    const hashedPassword = await hashPassword(password)
+
+    const updateUser: User = {
+        id,
+        name,
+        email,
+        password: hashedPassword,
     }
 
     try {
@@ -106,7 +108,7 @@ export async function updateUser(id: number, name: string, email: string, passwo
 
         if (updatedUser) {
             console.log(`${getCurrentTime()} - Usuário '${updateUser.id}' alterado com sucesso!`)
-            await createUserLog(uuid(), id, new Date(), 'UPDATE USER')
+            await createUserLog(uuid(), new Date(), 'UPDATE USER')
         } else {
             console.log(`${getCurrentTime()} - Nenhum usuário encontrado através do id '${updateUser.id}.'`)
         }
@@ -121,7 +123,7 @@ export async function deleteUser(id: number) {
 
         if (deletedUser) {
             console.log(`${getCurrentTime()} - Usuário com id '${id}' deletado com sucesso!`)
-            await createUserLog(uuid(), id, new Date(), 'DELETE USER')
+            await createUserLog(uuid(), new Date(), 'DELETE USER')
         } else {
             console.log(`${getCurrentTime()} - Nenhum usuário encontrado através do id '${id}.'`)
         }
