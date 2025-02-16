@@ -1,4 +1,4 @@
-import { z } from "zod";  
+import { z } from "zod"  
 import { Event } from "../models/eventModel"
 
 export const eventSchema = z.object({  
