@@ -4,7 +4,6 @@ import { getCurrentTime } from '../utils/loggerUtils'
 import { createEventDb, createEventTableDb, deleteEventDb, listAllEventsDb, listEventDb, updateEventDb } from '../services/eventService'
 import { validateEvent } from '../validations/eventValidation'
 import { createEventLog } from '../logs/eventLog'
-import { date } from 'zod'
 
 export async function createEventTable() {
     try {
@@ -21,7 +20,7 @@ export async function createEventTable() {
 export async function createEvent(name: string, date: Date, user_id: number) {
     const event: Event = {
         name,
-        date,
+        date: new Date(date.toISOString()),
         user_id
     }
 
@@ -32,6 +31,7 @@ export async function createEvent(name: string, date: Date, user_id: number) {
         validation.error.errors.forEach((err) => {
             console.log(`${getCurrentTime()} - - ${err.path.join(".")}: ${err.message}`)
         })
+        
         return
     }
 
@@ -40,7 +40,7 @@ export async function createEvent(name: string, date: Date, user_id: number) {
 
         if (createdEvent) {
             console.log(`${getCurrentTime()} - Evento inserido com sucesso!`)
-            await createEventLog(uuid(), user_id, date, 'INSERT EVENT')
+            await createEventLog(uuid(), date, 'INSERT EVENT')
         }
     } catch (error) {
         console.log(`${getCurrentTime()} - Erro ao inserir evento: ${error}}`)
@@ -83,7 +83,7 @@ export async function updateEvent(id: number, name: string, date: Date, user_id:
     const updateEvent: Event = {
         id,
         name,
-        date,
+        date: new Date(date.toISOString()),
         user_id
     }
     
@@ -94,6 +94,7 @@ export async function updateEvent(id: number, name: string, date: Date, user_id:
         validation.error.errors.forEach((err) => {
             console.log(`${getCurrentTime()} - - ${err.path.join(".")}: ${err.message}`)
         })
+
         return
     }
 
@@ -102,7 +103,7 @@ export async function updateEvent(id: number, name: string, date: Date, user_id:
 
         if (updatedEvent) {
             console.log(`${getCurrentTime()} - Evento '${updateEvent.id}' alterado com sucesso!`)
-            await createEventLog(uuid(), user_id, date, 'UPDATE EVENT')
+            await createEventLog(uuid(), date, 'UPDATE EVENT')
         } else {
             console.log(`${getCurrentTime()} - Nenhum evento encontrado através do id '${updateEvent.id}.'`)
         }
@@ -113,13 +114,11 @@ export async function updateEvent(id: number, name: string, date: Date, user_id:
 
 export async function deleteEvent(id: number) {
     try {
-        const { user_id } = await listEvent(id)
-
         const deletedEvent = await deleteEventDb(id)
 
         if (deletedEvent) {
             console.log(`${getCurrentTime()} - Evento com id '${id}' deletado com sucesso!`)
-            await createEventLog(uuid(), user_id, new Date(), 'DELETE EVENT')
+            await createEventLog(uuid(), new Date(), 'DELETE EVENT')
             return true
         } else {
             return false
