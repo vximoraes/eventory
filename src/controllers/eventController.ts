@@ -18,13 +18,7 @@ export async function createEventTable() {
 }
 
 export async function createEvent(name: string, date: Date, user_id: number) {
-    const event: Event = {
-        name,
-        date: new Date(date.toISOString()),
-        user_id
-    }
-
-    const validation = validateEvent(event)
+    const validation = validateEvent({name, date, user_id})
 
     if (!validation.success) {
         console.log(`${getCurrentTime()} - Erros de validação ao inserir evento:`)
@@ -33,6 +27,12 @@ export async function createEvent(name: string, date: Date, user_id: number) {
         })
         
         return
+    }
+
+    const event: Event = {
+        name,
+        date: new Date(date.toISOString()),
+        user_id
     }
 
     try {
@@ -80,14 +80,7 @@ export async function listEvent(id: number) {
 }
 
 export async function updateEvent(id: number, name: string, date: Date, user_id: number) {
-    const updateEvent: Event = {
-        id,
-        name,
-        date: new Date(date.toISOString()),
-        user_id
-    }
-    
-    const validation = validateEvent(updateEvent)
+    const validation = validateEvent({ name, date, user_id })
 
     if (!validation.success) {
         console.log(`${getCurrentTime()} - Erros de validação ao atualizar evento:`)
@@ -96,6 +89,13 @@ export async function updateEvent(id: number, name: string, date: Date, user_id:
         })
 
         return
+    }
+
+    const updateEvent: Event = {
+        id,
+        name,
+        date: new Date(date.toISOString()),
+        user_id
     }
 
     try {
