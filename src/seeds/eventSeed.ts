@@ -1,6 +1,6 @@
-import { createEvent } from "../controllers/eventController"
-import { Event } from "../models/eventModel"
 import { faker } from '@faker-js/faker'
+import { Event } from "../models/eventModel"
+import { createEvent } from "../controllers/eventController"
 import { listAllUsersDb } from "../services/userService"
 import { getCurrentTime } from "../utils/loggerUtils"
 
