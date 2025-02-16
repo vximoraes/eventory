@@ -7,9 +7,9 @@ Desenvolvimento de uma aplicação em TypeScript para gerenciar eventos e usuár
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 
 ## ✨ Features
-- **Gerenciamento de Eventos:** Permite ```adicionar```, ```listar```, ```listar por ID```, ```atualizar``` e ```deletar``` eventos.
-- **Gerenciamento de Usuários:** Permite ```adicionar```, ```listar```, ```listar por ID```, ```atualizar``` e ```deletar usuários```.
-- **Registro de Logs:** Todas as ações realizadas nos eventos e usuários (```inserir```, ```alterar```, ```deletar```) são registradas em um arquivo de logs, incluindo o ```ID do log```, ```usuário responsável```, ```data/hora``` e a ```ação```.
+- **Gerenciamento de Eventos:** Permite adicionar, listar, listar por ID, atualizar e deletar eventos.
+- **Gerenciamento de Usuários:** Permite adicionar, listar, listar por ID, atualizar e deletar usuários.
+- **Registro de Logs:** Todas as ações realizadas nos eventos e usuários (inserir, alterar, deletar) são registradas em um arquivo de logs, incluindo o ID do log, usuário responsável, data/hora e a ação.
 - **Validação de Dados:** Validações para garantir que os dados inseridos estejam corretos.
 - **Banco de Dados SQLite:** Persistência de dados utilizando SQLite.
 
