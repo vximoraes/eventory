@@ -91,7 +91,7 @@ export async function updateUser(id: number, name: string, email: string, passwo
             console.log(`${getCurrentTime()} - - ${err.path.join(".")}: ${err.message}`)
         })
 
-        return 
+        return
     }
 
     const hashedPassword = await hashPassword(password)
