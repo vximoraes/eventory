@@ -7,7 +7,7 @@ export const filePath: string = './data/evento.log'
 
 export async function createEventLog(id: string, date: Date, action: string) {
     try {
-        const username = currentUser 
+        const username = currentUser
         const eventString = `${getCurrentTime()} - ID: ${id}, Usuário: ${username}, Data: ${formatDate(date)}, Ação: ${action}\n`
 
         await fs.appendFileSync(filePath, eventString, 'utf-8')
