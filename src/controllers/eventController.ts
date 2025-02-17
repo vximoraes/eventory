@@ -18,14 +18,14 @@ export async function createEventTable() {
 }
 
 export async function createEvent(name: string, date: Date, user_id: number) {
-    const validation = validateEvent({name, date, user_id})
+    const validation = validateEvent({ name, date, user_id })
 
     if (!validation.success) {
         console.log(`${getCurrentTime()} - Erros de validação ao inserir evento:`)
         validation.error.errors.forEach((err) => {
             console.log(`${getCurrentTime()} - - ${err.path.join(".")}: ${err.message}`)
         })
-        
+
         return
     }
 
