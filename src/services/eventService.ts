@@ -36,7 +36,7 @@ export function createEventDb(event: Event): Promise<any> {
 
     return new Promise((resolve, reject) => {
         const formattedDate = formatDate(event.date)
-        
+
         db.run(query, [event.name, formattedDate, event.user_id], function (error) {
             if (error) {
                 reject(error)
