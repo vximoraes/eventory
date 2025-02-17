@@ -1,7 +1,7 @@
 # 🗓️ Gerenciamento de Eventos 
 Desenvolvimento de uma aplicação em TypeScript para gerenciar eventos e usuários utilizando um banco de dados SQLite. O sistema permite o gerenciamento de eventos, usuários e logs de ações realizadas no sistema.
 
-![Image](https://github.com/user-attachments/assets/1ddd862b-1d5e-44fb-ac49-8974378e3dde)
+![Image](https://github.com/user-attachments/assets/27b3fc5a-0689-4874-a62e-d5b092b5c30a)
 
 ## 🛠️ Tecnologias
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
@@ -46,6 +46,10 @@ npm run build
 ```bash
 npm run start 
 ```
+6. Ao iniciar a aplicação, você será solicitado a fazer login. Utilize as seguintes credenciais padrão:
+
+  - Usuário: ```Admin```
+  - Senha: ```#Admin12345```
 
 ## ⌨️ Navegação na Interface
 A aplicação possui uma interface interativa que permite navegar pelas opções utilizando as ```Setas do Teclado (⬆️⬇️)``` e a tecla ```Enter(↩️)``` para selecionar a opção desejada. Isso torna o uso do sistema mais intuitivo e fácil de operar.
