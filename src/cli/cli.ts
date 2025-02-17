@@ -8,27 +8,38 @@ import { createEventSeed } from '../seeds/eventSeed'
 export let currentUser: string | null = null
 
 async function login() {
-    const { username } = await inquirer.prompt<{ username: string }>([
+    const defaultUsername = 'Admin'
+    const defaultPassword = '#Admin12345'
+
+    const { username, password } = await inquirer.prompt([
         {
             type: 'input',
             name: 'username',
             message: 'Por favor, insira seu nome de usuário:',
+        },
+        {
+            type: 'password',
+            name: 'password',
+            message: 'Por favor, insira sua senha:',
+            mask: '*'
         }
     ])
-    currentUser = username 
-    console.log(`${getCurrentTime()} - Bem-vindo, ${currentUser}!`)
+
+    if (username === defaultUsername && password === defaultPassword) {
+        console.log(`${getCurrentTime()} - Bem-vindo, ${defaultUsername}!`)
+        currentUser = defaultUsername
+    } else {
+        console.log(`${getCurrentTime()} - Nome de usuário ou senha incorretos! Acesso negado.`)
+        await login()
+    }
 }
 
 async function mainMenu() {
-    if (!currentUser) {
-        await login() 
-    }
-
     const { option } = await inquirer.prompt([
         {
             type: 'list',
             name: 'option',
-            message: 'Bem-vindo! Selecione uma das opções:',
+            message: 'Selecione uma das opções:',
             choices: [
                 { name: '1 - Gerenciar Eventos', value: 'events' },
                 { name: '2 - Gerenciar Usuários', value: 'users' },
@@ -73,12 +84,12 @@ async function eventMenu() {
         case 'create':
             const { name, date, user_id } = await inquirer.prompt([
                 { type: 'input', name: 'name', message: 'Nome do evento:' },
-                { type: 'input', name: 'date', message: 'Data do evento (DD/MM/AAAA):' }, 
+                { type: 'input', name: 'date', message: 'Data do evento (DD/MM/AAAA):' },
                 { type: 'number', name: 'user_id', message: 'ID do usuário:' }
             ])
 
             const [day, month, year] = date.split('/').map(Number)
-            const eventDate = new Date(Date.UTC(year, month - 1, day)) 
+            const eventDate = new Date(Date.UTC(year, month - 1, day))
 
             await eventController.createEvent(name, eventDate, user_id)
             break
@@ -98,12 +109,12 @@ async function eventMenu() {
             const updateData = await inquirer.prompt([
                 { type: 'number', name: 'id', message: 'ID do evento a ser atualizado:' },
                 { type: 'input', name: 'name', message: 'Novo nome do evento:' },
-                { type: 'input', name: 'date', message: 'Nova data do evento (DD/MM/AAAA):' }, 
+                { type: 'input', name: 'date', message: 'Nova data do evento (DD/MM/AAAA):' },
                 { type: 'number', name: 'user_id', message: 'Novo ID do usuário:' }
             ])
 
             const [updateDay, updateMonth, updateYear] = updateData.date.split('/').map(Number)
-            const updateEventDate = new Date(Date.UTC(updateYear, updateMonth - 1, updateDay)) 
+            const updateEventDate = new Date(Date.UTC(updateYear, updateMonth - 1, updateDay))
 
             await eventController.updateEvent(updateData.id, updateData.name, updateEventDate, updateData.user_id)
             break
@@ -143,12 +154,12 @@ async function userMenu() {
             name: 'action',
             message: 'Selecione uma das opções:',
             choices: [
-                { name: '1 - Criar um usuário'        , value: 'create'  },
+                { name: '1 - Criar um usuário', value: 'create' },
                 { name: '2 - Listar todos os usuários', value: 'listAll' },
                 { name: '3 - Listar um usuário por ID', value: 'listOne' },
-                { name: '4 - Atualizar um usuário'    , value: 'update'  },
-                { name: '5 - Deletar um usuário'      , value: 'delete'  },
-                { name: '6 - Voltar ao menu principal', value: 'back'    }
+                { name: '4 - Atualizar um usuário', value: 'update' },
+                { name: '5 - Deletar um usuário', value: 'delete' },
+                { name: '6 - Voltar ao menu principal', value: 'back' }
             ]
         }
     ])
@@ -156,9 +167,9 @@ async function userMenu() {
     switch (action) {
         case 'create':
             const { name, email, password } = await inquirer.prompt([
-                { type: 'input'   , name: 'name'    , message: 'Nome:'                                                                },
-                { type: 'input'   , name: 'email'   , message: 'Email do usuário:'                                                    },
-                { type: 'password', name: 'password', message: 'Senha do usuário(deve conter 8 dígitos, número e caracter especial):' }
+                { type: 'input', name: 'name', message: 'Nome:' },
+                { type: 'input', name: 'email', message: 'Email do usuário:' },
+                { type: 'password', name: 'password', message: 'Senha do usuário(deve conter 8 dígitos, número e caracter especial):', mask: '*' }
             ])
             await userController.createUser(name, email, password)
             break
@@ -173,10 +184,10 @@ async function userMenu() {
             break
         case 'update':
             const updateData = await inquirer.prompt([
-                { type: 'number'  , name: 'id'      , message: 'ID do usuário a ser atualizado:' },
-                { type: 'input'   , name: 'name'    , message: 'Novo nome do usuário:'           },
-                { type: 'input'   , name: 'email'   , message: 'Novo email do usuário:'          },
-                { type: 'password', name: 'password', message: 'Nova senha do usuário:'          }
+                { type: 'number', name: 'id', message: 'ID do usuário a ser atualizado:' },
+                { type: 'input', name: 'name', message: 'Novo nome do usuário:' },
+                { type: 'input', name: 'email', message: 'Novo email do usuário:' },
+                { type: 'password', name: 'password', message: 'Nova senha do usuário:' }
             ])
             await userController.updateUser(updateData.id, updateData.name, updateData.email, updateData.password)
             break
@@ -184,27 +195,27 @@ async function userMenu() {
             const { deleteId } = await inquirer.prompt([
                 { type: 'number', name: 'deleteId', message: 'ID do usuário a ser deletado:' }
             ])
-        
+
             const { confirmDelete } = await inquirer.prompt([
                 {
                     type: 'confirm',
                     name: 'confirmDelete',
                     message: `Você tem certeza que deseja deletar o usuário de ID ${deleteId}?`,
-                    default: false 
+                    default: false
                 }
             ])
-        
+
             if (confirmDelete) {
                 await userController.deleteUser(deleteId)
             } else {
                 console.log(`${getCurrentTime()} - Operação de exclusão cancelada!`)
             }
-            break            
+            break
         case 'back':
-            return 
+            return
     }
 
-    await userMenu() 
+    await userMenu()
 }
 
 async function seedsMenu() {
@@ -214,9 +225,9 @@ async function seedsMenu() {
             name: 'action',
             message: 'Selecione uma das opções:',
             choices: [
-                { name: '1 - Adicionar 10 usuários (Seed)' , value: 'userSeed'  },
-                { name: '2 - Adicionar 10 eventos (Seed)'  , value: 'eventSeed' },
-                { name: '3 - Voltar ao menu principal'     , value: 'back'      }
+                { name: '1 - Adicionar 10 usuários (Seed)', value: 'userSeed' },
+                { name: '2 - Adicionar 10 eventos (Seed)', value: 'eventSeed' },
+                { name: '3 - Voltar ao menu principal', value: 'back' }
             ]
         }
     ])
@@ -227,14 +238,15 @@ async function seedsMenu() {
             break
         case 'eventSeed':
             await createEventSeed()
-            break        
+            break
         case 'back':
-            return 
+            return
     }
 
-    await seedsMenu() 
+    await seedsMenu()
 }
 
 export async function main() {
-    await mainMenu() 
+    await login()
+    await mainMenu()
 }
