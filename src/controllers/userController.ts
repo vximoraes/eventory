@@ -1,4 +1,3 @@
-import { v4 as uuid } from 'uuid'
 import { User } from './../models/userModel'
 import { validateUser } from '../validations/userValidation'
 import { createUserDb, createUserTableDb, deleteUserDb, listAllUsersDb, listUserDb, updateUserDb } from '../services/userService'
@@ -43,7 +42,7 @@ export async function createUser(name: string, email: string, password: string) 
 
         if (createdUser) {
             console.log(`${getCurrentTime()} - Usuário inserido com sucesso!`)
-            await createUserLog(uuid(), new Date(), 'INSERT USER')
+            await createUserLog('INSERT USER')
         }
     } catch (error) {
         console.log(`${getCurrentTime()} - Erro ao inserir usuário: ${error}}`)
@@ -108,7 +107,7 @@ export async function updateUser(id: number, name: string, email: string, passwo
 
         if (updatedUser) {
             console.log(`${getCurrentTime()} - Usuário '${updateUser.id}' alterado com sucesso!`)
-            await createUserLog(uuid(), new Date(), 'UPDATE USER')
+            await createUserLog('UPDATE USER')
         } else {
             console.log(`${getCurrentTime()} - Nenhum usuário encontrado através do id '${updateUser.id}.'`)
         }
@@ -123,7 +122,7 @@ export async function deleteUser(id: number) {
 
         if (deletedUser) {
             console.log(`${getCurrentTime()} - Usuário com id '${id}' deletado com sucesso!`)
-            await createUserLog(uuid(), new Date(), 'DELETE USER')
+            await createUserLog('DELETE USER')
         } else {
             console.log(`${getCurrentTime()} - Nenhum usuário encontrado através do id '${id}.'`)
         }
