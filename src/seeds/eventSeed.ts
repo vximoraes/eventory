@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { Event } from "../models/eventModel"
 import { createEvent } from "../controllers/eventController"
 import { listAllUsersDb } from "../services/userService"
-import { getCurrentTime } from "../utils/loggerUtils"
+import { getCurrentTime } from "../utils/timeUtils"
 
 export async function createEventSeed() {
     try {
