@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.ts",
-    "start": "node dist/index.js",
+    "start": "node dist/src/index.js",
     "build": "tsc"
   },
   "repository": {
@@ -21,7 +21,10 @@
   },
   "homepage": "https://github.com/vximoraes/event-management#readme",
   "dependencies": {
+    "@libsql/client": "^0.14.0",
     "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.39.3",
     "faker": "^5.5.3",
     "fs": "^0.0.1-security",
     "inquirer": "^12.4.1",
@@ -33,6 +36,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.5.0",
-    "@types/bcrypt": "^5.0.2"
+    "@types/bcrypt": "^5.0.2",
+    "drizzle-kit": "^0.30.4"
   }
 }
