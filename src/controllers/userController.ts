@@ -1,21 +1,9 @@
+import { createUserDb, deleteUserDb, listAllUsersDb, listUserDb, updateUserDb } from './../services/userService';
 import { User } from './../models/userModel'
 import { validateUser } from '../validations/userValidation'
-import { createUserDb, createUserTableDb, deleteUserDb, listAllUsersDb, listUserDb, updateUserDb } from '../services/userService'
 import { getCurrentTime } from '../utils/loggerUtils'
 import { hashPassword } from '../utils/passwordUtils'
 import { createUserLog } from '../logs/userLog'
-
-export async function createUserTable() {
-    try {
-        const createdTable = await createUserTableDb()
-
-        if (createdTable) {
-            // console.log(`${getCurrentTime()} - Tabela users criada com sucesso!`)
-        }
-    } catch (error) {
-        console.log(`${getCurrentTime()} - Erro ao criar a tabela users: ${error}`)
-    }
-}
 
 export async function createUser(name: string, email: string, password: string) {
     const validation = validateUser({ name, email, password })
@@ -38,9 +26,9 @@ export async function createUser(name: string, email: string, password: string) 
     }
 
     try {
-        const createdUser = await createUserDb(user)
+        const userCreated = await createUserDb(user)
 
-        if (createdUser) {
+        if (userCreated) {
             console.log(`${getCurrentTime()} - Usuário inserido com sucesso!`)
             await createUserLog('INSERT USER')
         }
