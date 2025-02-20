@@ -1,6 +1,6 @@
 import fs from 'fs'
 import { v4 as uuid } from 'uuid'
-import { getCurrentTime } from '../utils/loggerUtils'
+import { getCurrentTime } from '../utils/timeUtils'
 import { formatDate } from '../utils/dateUtils'
 import { currentUser } from '../cli/cli'
 
