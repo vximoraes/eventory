@@ -1,9 +1,9 @@
-import { createUserDb, deleteUserDb, listAllUsersDb, listUserDb, updateUserDb } from './../services/userService';
-import { User } from './../models/userModel'
-import { validateUser } from '../validations/userValidation'
-import { getCurrentTime } from '../utils/loggerUtils'
-import { hashPassword } from '../utils/passwordUtils'
-import { createUserLog } from '../logs/userLog'
+import { User } from './../models/userModel'   
+import { getCurrentTime } from '../utils/timeUtils'  
+import { hashPassword } from '../utils/passwordUtils'   
+import { validateUser } from '../validations/userValidation'    
+import { createUserLog } from '../logs/userLog'  
+import { createUserDb, deleteUserDb, listAllUsersDb, listUserDb, updateUserDb } from './../services/userService'
 
 export async function createUser(name: string, email: string, password: string) {
     const validation = validateUser({ name, email, password })
