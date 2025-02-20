@@ -13,16 +13,9 @@ Desenvolvimento de uma aplicação em TypeScript para gerenciar eventos e usuár
 - **Validação de Dados:** Validações para garantir que os dados inseridos estejam corretos.
 - **Banco de Dados SQLite:** Persistência de dados utilizando SQLite.
 
-## 🏃‍♂️ Rodando Localmente
+## ⚙️ Configuração do Turso com Drizzle ORM  
 
-### Pré-requisitos
-
-- Node.js instalado na sua máquina.
-- NPM para gerenciar pacotes.
-
-### ⚙️ Configuração do Turso com Drizzle ORM  
-
-- **Turso CLI:** Siga as instruções na documentação do Turso CLI para instalar.
+Siga as instruções na documentação do [Turso CLI](https://docs.turso.tech/cli/introduction) para instalar.
 
 #### 1. Cadastro ou Login no Turso: 
 
@@ -72,6 +65,13 @@ Alternativamente, você pode usar o comando de push para aplicar mudanças diret
 ```bash
 npx drizzle-kit push
 ```
+
+## 🏃‍♂️ Rodando Localmente
+
+### Pré-requisitos
+
+- Node.js instalado na sua máquina.
+- NPM para gerenciar pacotes.
 
 ### Passos para rodar o projeto
 
