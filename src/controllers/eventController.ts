@@ -1,21 +1,8 @@
-import { v4 as uuid } from 'uuid'
-import { Event } from './../models/eventModel'
-import { getCurrentTime } from '../utils/loggerUtils'
-import { createEventDb, createEventTableDb, deleteEventDb, listAllEventsDb, listEventDb, updateEventDb } from '../services/eventService'
-import { validateEvent } from '../validations/eventValidation'
-import { createEventLog } from '../logs/eventLog'
-
-export async function createEventTable() {
-    try {
-        const createdTable = await createEventTableDb()
-
-        if (createdTable) {
-            // console.log(`${getCurrentTime()} - Tabela events criada com sucesso!`)
-        }
-    } catch (error) {
-        console.log(`${getCurrentTime()} - Erro ao criar a tabela events: ${error}`)
-    }
-}
+import { Event } from './../models/eventModel'  
+import { getCurrentTime } from '../utils/timeUtils'  
+import { validateEvent } from '../validations/eventValidation'  
+import { createEventLog } from '../logs/eventLog'  
+import { createEventDb, deleteEventDb, listAllEventsDb, listEventDb, updateEventDb } from '../services/eventService'
 
 export async function createEvent(name: string, date: Date, user_id: number) {
     const validation = validateEvent({ name, date, user_id })
