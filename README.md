@@ -18,7 +18,60 @@ Desenvolvimento de uma aplicação em TypeScript para gerenciar eventos e usuár
 ### Pré-requisitos
 
 - Node.js instalado na sua máquina.
-- NPM ou Yarn para gerenciar pacotes.
+- NPM para gerenciar pacotes.
+
+### ⚙️ Configuração do Turso com Drizzle ORM  
+
+- **Turso CLI:** Siga as instruções na documentação do Turso CLI para instalar.
+
+#### 1. Cadastro ou Login no Turso: 
+
+- Cadastro:
+```bash
+turso auth signup
+```
+- Login:
+```bash
+turso auth login
+```
+
+#### 2. Criar um Novo Banco de Dados:
+
+```bash
+turso db create nome-banco
+```
+
+#### 3. Criar um Token de Autenticação:
+
+```bash
+turso db tokens create nome-banco
+```
+
+#### 4. Atualizar Variáveis de Ambiente:
+
+```bash
+TURSO_CONNECTION_URL=<sua_url_de_conexão>
+TURSO_AUTH_TOKEN=<seu_token_de_autenticação>
+```
+
+#### 5. Aplicar Mudanças ao Banco de Dados:
+
+Para gerar e aplicar migrações, utilize os seguintes comandos:
+
+- Gerar Migrações
+```bash
+npx drizzle-kit generate
+```
+
+- Rodar Migrações:
+```bash
+npx drizzle-kit migrate
+```
+
+Alternativamente, você pode usar o comando de push para aplicar mudanças diretamente:
+```bash
+npx drizzle-kit push
+```
 
 ### Passos para rodar o projeto
 
