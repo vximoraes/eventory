@@ -1,7 +1,7 @@
 import inquirer from 'inquirer'
 import * as eventController from '../controllers/eventController'
 import * as userController from '../controllers/userController'
-import { getCurrentTime } from '../utils/loggerUtils'
+import { getCurrentTime } from '../utils/timeUtils'
 import { createUserSeed } from '../seeds/userSeed'
 import { createEventSeed } from '../seeds/eventSeed'
 
