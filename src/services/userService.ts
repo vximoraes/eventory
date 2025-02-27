@@ -14,7 +14,7 @@ export async function createUserDb(user: User): Promise<boolean> {
     })
 }
 
-export function listAllUsersDb(): Promise<any[]> {
+export async function listAllUsersDb(): Promise<any[]> {
     return new Promise((resolve, reject) => {
         db.select().from(usersTable)
             .then((users) => {
@@ -25,7 +25,7 @@ export function listAllUsersDb(): Promise<any[]> {
     })
 }
 
-export function listUserDb(id: number): Promise<any> {
+export async function listUserDb(id: number): Promise<any> {
     return new Promise((resolve, reject) => {
         db.select().from(usersTable).where(eq(usersTable.id, id))
             .then((user) => {
@@ -36,7 +36,7 @@ export function listUserDb(id: number): Promise<any> {
     })
 }
 
-export function updateUserDb(user: User): Promise<any> {  
+export async function updateUserDb(user: User): Promise<any> {  
     return new Promise((resolve, reject) => {  
         if (user.id === undefined) {  
             return reject(new Error("User ID is required"))  
@@ -54,7 +54,7 @@ export function updateUserDb(user: User): Promise<any> {
     })  
 } 
 
-export function deleteUserDb(id: number): Promise<any> {
+export async function deleteUserDb(id: number): Promise<any> {
     return new Promise((resolve, reject) => {
         db.delete(usersTable).where(eq(usersTable.id, id))
         .then(() => {
