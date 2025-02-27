@@ -16,7 +16,7 @@ export async function createEventDb(event: Event): Promise<boolean> {
     })
 }
 
-export function listAllEventsDb(): Promise<any[]> {
+export async function listAllEventsDb(): Promise<any[]> {
     return new Promise((resolve, reject) => {
         db.select().from(eventsTable)
             .then((users) => {
@@ -27,7 +27,7 @@ export function listAllEventsDb(): Promise<any[]> {
     })
 }
 
-export function listEventDb(id: number): Promise<any> {
+export async function listEventDb(id: number): Promise<any> {
     return new Promise((resolve, reject) => {
         db.select().from(eventsTable).where(eq(eventsTable.id, id))
             .then((user) => {
@@ -38,7 +38,7 @@ export function listEventDb(id: number): Promise<any> {
     })
 }
 
-export function updateEventDb(event: Event): Promise<any> {  
+export async function updateEventDb(event: Event): Promise<any> {  
     return new Promise((resolve, reject) => {  
         if (event.id === undefined) {  
             return reject(new Error("User ID is required"))  
@@ -58,7 +58,7 @@ export function updateEventDb(event: Event): Promise<any> {
     })  
 } 
 
-export function deleteEventDb(id: number): Promise<any> {
+export async function deleteEventDb(id: number): Promise<any> {
     return new Promise((resolve, reject) => {
         db.delete(eventsTable).where(eq(eventsTable.id, id))
         .then(() => {
