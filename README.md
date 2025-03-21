@@ -1,5 +1,5 @@
-# 🗓️ Gerenciamento de Eventos 
-Desenvolvimento de uma aplicação em TypeScript para gerenciar eventos e usuários utilizando um banco de dados SQLite. O sistema permite o gerenciamento de eventos, usuários e logs de ações realizadas no sistema.
+# 🗓️ Event Management 
+Development of a TypeScript application that manages events and users through an SQLite database, facilitating the administration of events, users, and logs of actions performed within the system.
 
 ![Image](https://github.com/user-attachments/assets/27b3fc5a-0689-4874-a62e-d5b092b5c30a)
 
@@ -7,49 +7,49 @@ Desenvolvimento de uma aplicação em TypeScript para gerenciar eventos e usuár
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![SQLite](https://img.shields.io/badge/sqlite-%2307405e.svg?style=for-the-badge&logo=sqlite&logoColor=white)
 
 ## ✨ Features
-- **Gerenciamento de Eventos:** Permite adicionar, listar, listar por ID, atualizar e deletar eventos.
-- **Gerenciamento de Usuários:** Permite adicionar, listar, listar por ID, atualizar e deletar usuários.
-- **Registro de Logs:** Todas as ações realizadas nos eventos e usuários (inserir, alterar, deletar) são registradas em um arquivo de logs, incluindo o ID do log, usuário responsável, data/hora e a ação.
-- **Validação de Dados:** Validações para garantir que os dados inseridos estejam corretos.
-- **Banco de Dados SQLite:** Persistência de dados utilizando SQLite.
+- **Event Management:** Allows adding, listing, retrieving by ID, updating, and deleting events.
+- **User Management:** Allows adding, listing, retrieving by ID, updating, and deleting users.
+- **Log Recording:** All actions performed on events and users (insert, update, delete) are recorded in a log file, including the log ID, responsible user, date/time, and action taken.
+- **Data Validation:** Validations to ensure that the input data is accurate.
+- **SQLite Database: Data persistence using SQLite.**
 
-## 🏃‍♂️ Rodando Localmente
+## 🏃‍♂️ Running Locally
 
-### Pré-requisitos
+### Prerequisites
 
-- Node.js instalado na sua máquina.
-- NPM ou Yarn para gerenciar pacotes.
+- Node.js installed on your machine.
+- NPM or Yarn to manage packages.
 
-### Passos para rodar o projeto
+### Steps to run the project
 
-1. Clone o repositório:
+1. Clone the repository:
 ```bash
 git clone https://github.com/vximoraes/eventory.git
 ```
 
-2. Acesse o diretório do projeto:
+2. Navigate to the project directory:
 ```bash
 cd eventory 
 ```
 
-3. Instale as dependências:
+3. Install the dependencies:
 ```bash
 npm install  
 ```
 
-4. Faça o build do TypeScript:
+4. Build the TypeScript:
 ```bash
 npm run build
 ```
 
-5. Executre o projeto:
+5. Run the project:
 ```bash
 npm run start 
 ```
-6. Ao iniciar a aplicação, você será solicitado a fazer login. Utilize as seguintes credenciais padrão:
+6. When starting the application, you will be prompted to log in. Use the following default credentials:
 
-  - Usuário: ```Admin```
-  - Senha: ```#Admin12345```
+  - Username: ```Admin```
+  - Password: ```#Admin12345```
 
-## ⌨️ Navegação na Interface
-A aplicação possui uma interface interativa que permite navegar pelas opções utilizando as ```Setas do Teclado (⬆️⬇️)``` e a tecla ```Enter(↩️)``` para selecionar a opção desejada. Isso torna o uso do sistema mais intuitivo e fácil de operar.
+## ⌨️ Navigation in the Interface
+The application features an interactive interface that allows navigation through options using the Arrow Keys (⬆️⬇️) and the Enter key (↩️) to select the desired option. This makes using the system more intuitive and easy to operate.
